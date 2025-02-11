@@ -1,0 +1,212 @@
+main {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+}
+
+.movies-container {
+    flex: 2;
+}
+
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.movie-card {
+    background: #222;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    max-inline-size: 360px;
+    cursor: pointer;
+}
+
+.movie-card img {
+    inline-size: 100%;
+    border-radius: 5px;
+}
+
+.movie-card h3 {
+    font-size: 1rem;
+    margin: 8px 0;
+}
+
+.movie-card p {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.dashboard {
+    flex: 2;
+    inline-size: 550px;
+    background: rgba(34, 34, 34, 0.9);
+    margin-inline-start: -10px;
+    border-radius: 8px;
+    color: white;
+    padding: 20px;
+}
+
+h2 {
+    font-family: "Cinzel", serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 5px;
+    font-stretch: expanded;
+    color: rgba(255, 215, 0, 0.8);
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    margin-block-start: -5px;
+    margin-inline-start: -10px;
+    gap: 12px;
+    opacity: 0.9;
+}
+
+h2 i {
+    color: #ff0000;
+    margin-inline-end: 8px;
+    font-size: 40px;
+    margin-inline-start: 15px;
+}
+
+.dashboard input,
+.dashboard select {
+    inline-size: 100%;
+    inline-size: 450px;
+    padding: 8px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.input-group {
+    margin-block-end: 80px;
+}
+
+.form-select {
+    max-inline-size: 330px;
+    margin-block-start: 10px;
+}
+
+.movie-details {
+    margin-block-start: 15px;
+    text-align: center;
+}
+
+.movie-details img {
+    inline-size: 100%;
+    border-radius: 5px;
+}
+
+.genre-selection button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: white;
+    border: 1px solid transparent;
+    border-radius: 8%;
+    padding: 10px 15px;
+    font-size: 40px;
+    margin-block-start: -235px;
+    margin-inline-start: 485px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.genre-selection button:hover {
+    background-color: transparent;
+}
+
+.genre-selection button i {
+    margin-inline-end: 8px;
+}
+
+.dropdown-menu {
+    background-color: transparent;
+    border-radius: 4px;
+    box-shadow: transparent;
+    max-block-size: 250px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    margin-block-start: 100px;
+}
+
+.dropdown-menu a {
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    margin-inline-start: -10px;
+    font-size: 24px;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+    background-color: rgba(0, 123, 255, 0.7);
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s 0.3s;
+}
+
+.dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s 0.3s;
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #ffffff;
+    background-color: rgba(34, 33, 33, 0.5);
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+    .genre-selection button {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 800px) {
+    main {
+        flex-direction: column;
+    }
+
+    .movies-container {
+        order: 1;
+    }
+
+    .dashboard {
+        order: 2;
+        inline-size: 100%;
+    }
+
+    .movies-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .movies-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .genre-selection button {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}
