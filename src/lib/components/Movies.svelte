@@ -1,4 +1,6 @@
 <script>
+  // @ts-nocheck
+
   import { onMount } from "svelte";
   import { fetchMovies } from "../controllers/moviesController";
   import "../css/Moovies.css";
@@ -147,6 +149,16 @@
         <i class="bi bi-list"></i>
       </button>
 
+      <div
+        style="position: absolute; z-index: 9999; top: 45%; left:12%; transform: translate(-50%, -50%); border: solid 1px white; width: 550px; height: 910px; display: flex; justify-content: center; align-items: center; color: white; background-color: rgba(0, 0, 0, 0.6);"
+      >
+        <i class="bi bi-camera" style="font-size: 3rem; margin-right: 10px;"
+        ></i>
+        <span style="font-size: 1.5rem;"
+          >Pas de vignette affichée pour l'instant</span
+        >
+      </div>
+
       {#if isMenuOpen}
         <div class="dropdown-menu show">
           {#each genres as genre}
@@ -194,7 +206,7 @@
           {#if videoUrl}
             <!-- svelte-ignore a11y_missing_attribute -->
             <iframe
-              style="position: relative; z-index: 999; margin-left: 0px; margin-top: -150px; margin-left: 2235px;"
+              style="position: relative; z-index: 999; margin-left: 0px; margin-top: -150px; margin-left: 2270px;"
               width="420"
               height="315"
               src={videoUrl}
@@ -293,6 +305,16 @@
             />
           </div>
         {/each}
+      </div>
+    </div>
+    <div
+      style="position: absolute; z-index: 9999; top: 87%; left: 90.8%; transform: translate(-50%, -50%); border: solid 1px white; width: 420px; height: 315px; display: flex; justify-content: center; align-items: center; color: white; background-color: rgba(0, 0, 0, 0.6);"
+    >
+      <div
+        style="position: absolute; z-index: 9999; top: 50%; left: 50%; transform: translate(-50%, -50%); border: solid 1px white; width: 420px; height: 315px; display: flex; justify-content: center; align-items: center; color: white; background-color: rgba(0, 0, 0, 0.6);"
+      >
+        <i class="bi bi-film" style="font-size: 3rem; margin-right: 10px;"></i>
+        <span style="font-size: 1.5rem;">Pas de lecture en cours</span>
       </div>
     </div>
   </div>
