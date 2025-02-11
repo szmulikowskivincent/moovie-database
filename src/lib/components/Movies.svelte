@@ -5,6 +5,8 @@
   import { fetchMovies } from "../controllers/moviesController";
   import "../css/Moovies.css";
 
+  let selectedMovieURL = ""; 
+
   let movies = [];
   let filteredMovies = [];
   let selectedMovie = null;
@@ -76,6 +78,15 @@
     if (currentPage > 1) {
       currentPage -= 1;
       filterMovies();
+    }
+  }
+
+  function playMovie(movie) {
+    const youtubeURL = movie.youtubeURL || ""; 
+    if (youtubeURL) {
+      videoUrl = `https://www.youtube.com/embed/${youtubeURL}`;
+    } else {
+      videoUrl = ""; 
     }
   }
 
@@ -182,12 +193,7 @@
           {#if videoUrl}
             <!-- svelte-ignore a11y_missing_attribute -->
             <iframe
-              style="
-              position: relative; 
-              z-index: 999; 
-              margin-left: 0px; 
-              margin-top: -150px;
-              margin-left: 2235px;"
+              style="position: relative; z-index: 999; margin-left: 0px; margin-top: -150px; margin-left: 2235px;"
               width="420"
               height="315"
               src={videoUrl}
@@ -198,12 +204,10 @@
           {/if}
         </div>
 
-      
-         <h1>ⓘ</h1>
-          <strong></strong>
-          <br /><br />
-          {selectedMovie.overview}
-      
+        <h1>ⓘ</h1>
+        <strong></strong>
+        <br /><br />
+        {selectedMovie.overview}
       </div>
     {/if}
   </div>
