@@ -1,11 +1,9 @@
 <script>
-  // @ts-nocheck
-
   import { onMount } from "svelte";
   import { fetchMovies } from "../controllers/moviesController";
   import "../css/Moovies.css";
 
-  let selectedMovieURL = ""; 
+  let selectedMovieURL = "";
 
   let movies = [];
   let filteredMovies = [];
@@ -31,6 +29,14 @@
     try {
       movies = await fetchMovies();
       filteredMovies = movies;
+
+      const response = await fetch("/movies.json");
+      if (!response.ok) {
+        throw new Error("Erreur lors du chargement du fichier movies.json");
+      }
+      const moviesFromJson = await response.json();
+      movies = [...movies, ...moviesFromJson];
+
       genres = [
         { id: "28", name: "🎬Action" },
         { id: "12", name: "📽️Aventure" },
@@ -38,7 +44,6 @@
         { id: "10749", name: "🎞️Romantique" },
       ];
 
-      // Calculer le nombre total de pages
       totalPages = Math.ceil(movies.length / itemsPerPage);
       filterMovies();
     } catch (err) {
@@ -49,7 +54,6 @@
   });
 
   function filterMovies() {
-    // Calculer les films affichés pour la page courante
     let startIndex = (currentPage - 1) * itemsPerPage;
     let endIndex = startIndex + itemsPerPage;
 
@@ -82,12 +86,7 @@
   }
 
   function playMovie(movie) {
-    const youtubeURL = movie.youtubeURL || ""; 
-    if (youtubeURL) {
-      videoUrl = `https://www.youtube.com/embed/${youtubeURL}`;
-    } else {
-      videoUrl = ""; 
-    }
+    selectedMovie = movie.youtubeURL;
   }
 
   function toggleFavorite(movie) {
@@ -110,7 +109,15 @@
 </script>
 
 <main>
-  <div class="pagination" style="margin-top: -20px">
+  <div class="pagination" style="margin-top: -20px; margin-left: 350px">
+    <input
+      style="width: 570px; height: 35px; font-size: 24px; margin-left:-1220px;"
+      type="text"
+      class="form-control"
+      bind:value={searchQuery}
+      on:input={filterMovies}
+      placeholder="🔎 Rechercher par titre..."
+    />
     <button on:click={prevPage} disabled={currentPage === 1}>
       Précédent
     </button>
@@ -125,20 +132,12 @@
     <h2>
       <i class="bi bi-film"></i> My Moovies Data Base
     </h2>
-    <div class="input-group mb-3">
-      <input
-        style="width: 520px; height: 35px; font-size: 24px; margin-left: 5px;"
-        type="text"
-        class="form-control"
-        bind:value={searchQuery}
-        on:input={filterMovies}
-        placeholder="🔎 Rechercher par titre..."
-      />
-    </div>
+    <div class="input-group mb-3"></div>
 
     <div class="genre-selection">
       <!-- svelte-ignore a11y_consider_explicit_label -->
       <button
+        style="margin-top:-140px"
         class="btn btn-outline-secondary"
         type="button"
         on:click={() => (isMenuOpen = !isMenuOpen)}
