@@ -3,8 +3,6 @@
   import { fetchMovies } from "../controllers/moviesController";
   import "../css/Moovies.css";
 
-  let selectedMovieURL = "";
-
   let movies = [];
   let filteredMovies = [];
   let selectedMovie = null;
@@ -17,9 +15,8 @@
   let isMenuOpen = false;
 
   let currentPage = 1;
-  let itemsPerPage = 12;
-  let totalPages = 0;
-
+  let itemsPerPage = 6;
+  let totalPages = 2;
   let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies")) || [];
   let watchedMovies = JSON.parse(localStorage.getItem("watchedMovies")) || [];
 
@@ -44,7 +41,6 @@
         { id: "10749", name: "🎞️Romantique" },
       ];
 
-      totalPages = Math.ceil(movies.length / itemsPerPage);
       filterMovies();
     } catch (err) {
       error = "Erreur lors du chargement des films.";
@@ -115,7 +111,10 @@
       type="text"
       class="form-control"
       bind:value={searchQuery}
-      on:input={filterMovies}
+      on:input={() => {
+        currentPage = 1;
+        filterMovies();
+      }}
       placeholder="🔎 Rechercher par titre..."
     />
     <button on:click={prevPage} disabled={currentPage === 1}>
@@ -128,11 +127,11 @@
       Suivant
     </button>
   </div>
+
   <div class="dashboard">
     <h2>
       <i class="bi bi-film"></i> My Moovies Data Base
     </h2>
-    <div class="input-group mb-3"></div>
 
     <div class="genre-selection">
       <!-- svelte-ignore a11y_consider_explicit_label -->
@@ -154,6 +153,7 @@
               href="#"
               on:click={() => {
                 selectedGenre = genre.id;
+                currentPage = 1;
                 filterMovies();
               }}
             >
@@ -266,8 +266,8 @@
       <h3>❤️ Favoris</h3>
       <div class="movies-grid">
         {#each movies.filter( (movie) => favoriteMovies.includes(movie.id) ) as movie (movie.id)}
-          <!-- svelte-ignore a11y_no_static_element_interactions -->
           <!-- svelte-ignore a11y_click_events_have_key_events -->
+          <!-- svelte-ignore a11y_no_static_element_interactions -->
           <div class="movie-card" on:click={() => showDetails(movie)}>
             <img
               src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
