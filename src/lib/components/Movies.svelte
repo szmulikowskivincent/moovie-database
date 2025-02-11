@@ -136,7 +136,7 @@
     <div class="genre-selection">
       <!-- svelte-ignore a11y_consider_explicit_label -->
       <button
-        style="margin-top:-140px"
+        style="margin-top:-80px"
         class="btn btn-outline-secondary"
         type="button"
         on:click={() => (isMenuOpen = !isMenuOpen)}
