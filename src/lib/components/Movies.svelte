@@ -23,6 +23,8 @@
   let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies")) || [];
   let watchedMovies = JSON.parse(localStorage.getItem("watchedMovies")) || [];
 
+  let videoUrl = "";
+
   onMount(async () => {
     try {
       movies = await fetchMovies();
@@ -36,7 +38,7 @@
 
       // Calculer le nombre total de pages
       totalPages = Math.ceil(movies.length / itemsPerPage);
-      filterMovies(); // Appliquer le filtre initial
+      filterMovies();
     } catch (err) {
       error = "Erreur lors du chargement des films.";
     } finally {
@@ -164,7 +166,7 @@
           alt={selectedMovie.title}
         />
         <br /> <br />
-        <h2 style="margin-left: 125px">
+        <h2 style="margin-left: 135px">
           <strong>Note :</strong> ⭐ {selectedMovie.vote_average}
         </h2>
         <div>
@@ -172,21 +174,36 @@
             style="background-color: transparent; border: none; font-size: 24px"
             class="btn btn-primary"
             on:click={() =>
-              window.open(
-                `https://www.youtube.com/watch?v=${selectedMovie.id}`,
-                "_blank"
-              )}
+              (videoUrl = `https://www.youtube.com/embed/${selectedMovie.id}`)}
           >
             <i class="bi bi-play-circle"></i> ▶ Voir le film
           </button>
+
+          {#if videoUrl}
+            <!-- svelte-ignore a11y_missing_attribute -->
+            <iframe
+              style="
+              position: relative; 
+              z-index: 999; 
+              margin-left: 0px; 
+              margin-top: -150px;
+              margin-left: 2235px;"
+              width="420"
+              height="315"
+              src={videoUrl}
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          {/if}
         </div>
 
-        <p>
-          <i style="width: 5%px" class="bi bi-info-circle-fill"></i>
+      
+         <h1>ⓘ</h1>
           <strong></strong>
           <br /><br />
           {selectedMovie.overview}
-        </p>
+      
       </div>
     {/if}
   </div>
