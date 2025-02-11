@@ -16,6 +16,13 @@
 
   let isMenuOpen = false;
 
+  let currentPage = 1;
+  let itemsPerPage = 12;
+  let totalPages = 0;
+
+  let favoriteMovies = JSON.parse(localStorage.getItem("favoriteMovies")) || [];
+  let watchedMovies = JSON.parse(localStorage.getItem("watchedMovies")) || [];
+
   onMount(async () => {
     try {
       movies = await fetchMovies();
@@ -26,6 +33,10 @@
         { id: "35", name: "🎥Comédie" },
         { id: "10749", name: "🎞️Romantique" },
       ];
+
+      // Calculer le nombre total de pages
+      totalPages = Math.ceil(movies.length / itemsPerPage);
+      filterMovies();  // Appliquer le filtre initial
     } catch (err) {
       error = "Erreur lors du chargement des films.";
     } finally {
@@ -34,7 +45,11 @@
   });
 
   function filterMovies() {
-    filteredMovies = movies.filter((movie) => {
+    // Calculer les films affichés pour la page courante
+    let startIndex = (currentPage - 1) * itemsPerPage;
+    let endIndex = startIndex + itemsPerPage;
+
+    filteredMovies = movies.slice(startIndex, endIndex).filter((movie) => {
       return (
         (selectedGenre
           ? movie.genre_ids.includes(Number(selectedGenre))
@@ -47,16 +62,59 @@
   function showDetails(movie) {
     selectedMovie = movie;
   }
+
+  function nextPage() {
+    if (currentPage < totalPages) {
+      currentPage += 1;
+      filterMovies();  // Appliquer le filtre après changement de page
+    }
+  }
+
+  function prevPage() {
+    if (currentPage > 1) {
+      currentPage -= 1;
+      filterMovies();  // Appliquer le filtre après changement de page
+    }
+  }
+
+  function toggleFavorite(movie) {
+    if (favoriteMovies.includes(movie.id)) {
+      favoriteMovies = favoriteMovies.filter((id) => id !== movie.id);
+    } else {
+      favoriteMovies.push(movie.id);
+    }
+    localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
+  }
+
+  function toggleWatched(movie) {
+    if (watchedMovies.includes(movie.id)) {
+      watchedMovies = watchedMovies.filter((id) => id !== movie.id);
+    } else {
+      watchedMovies.push(movie.id);
+    }
+    localStorage.setItem("watchedMovies", JSON.stringify(watchedMovies));
+  }
 </script>
 
 <main>
+  <div class="pagination" style="margin-top: -20px">
+    <button on:click={prevPage} disabled={currentPage === 1}>
+      Précédent
+    </button>
+    <span>
+      Page {currentPage} sur {totalPages}
+    </span>
+    <button on:click={nextPage} disabled={currentPage === totalPages}>
+      Suivant
+    </button>
+  </div>
   <div class="dashboard">
     <h2>
       <i class="bi bi-film"></i> My Moovies Data Base
     </h2>
     <div class="input-group mb-3">
       <input
-        style=" width: 520px; height: 35px; font-size: 24px; margin-left: 5px; margin-: -150px"
+        style="width: 520px; height: 35px; font-size: 24px; margin-left: 5px;"
         type="text"
         class="form-control"
         bind:value={searchQuery}
@@ -106,11 +164,25 @@
           alt={selectedMovie.title}
         />
         <br /> <br />
-        <h2 style="Margin-left: 125px">
+        <h2 style="margin-left: 125px">
           <strong>Note :</strong> ⭐ {selectedMovie.vote_average}
         </h2>
+        <div>
+          <button
+            style="background-color: transparent; border: none; font-size: 24px"
+            class="btn btn-primary"
+            on:click={() =>
+              window.open(
+                `https://www.youtube.com/watch?v=${selectedMovie.id}`,
+                "_blank"
+              )}>
+            <i class="bi bi-play-circle"></i> ▶ Voir le film
+          </button>
+        </div>
+
         <p>
-          <i class="bi bi-info-circle-fill"></i> <strong>Description :</strong>
+          <i style="width: 5%px" class="bi bi-info-circle-fill"></i>
+          <strong></strong>
           <br /><br />
           {selectedMovie.overview}
         </p>
@@ -134,9 +206,70 @@
           />
           <h3>{movie.title}</h3>
           <p>⭐ {movie.vote_average}</p>
+          <div class="movie-actions">
+            <button
+              on:click={(event) => {
+                event.stopPropagation();
+                toggleFavorite(movie);
+              }}
+              aria-label="Ajouter aux favoris"
+            >
+              <i class="bi bi-heart" style="color: red;"></i>
+            </button>
+            <button
+              on:click={(event) => {
+                event.stopPropagation();
+                toggleWatched(movie);
+              }}
+              aria-label="Marquer comme déjà vu"
+            >
+              <i class="bi bi-check2-circle" style="color: green;"></i>
+            </button>
+          </div>
         </div>
       {/each}
     </div>
   {/if}
-  <div style="margin-left: 5px" class="dashboard"></div>
+
+  <div style="margin-left: 5px" class="dashboard">
+    <h2 style="margin-left: 85px">
+      <!-- svelte-ignore element_invalid_self_closing_tag -->
+      <i class="bi bi-camera-video" style="font-size: 40px; margin-right: 10px;"/>
+      My Moovies
+    </h2>
+
+    <div class="favorites">
+      <h3>❤️ Favoris</h3>
+      <div class="movies-grid">
+        {#each movies.filter( (movie) => favoriteMovies.includes(movie.id) ) as movie (movie.id)}
+          <!-- svelte-ignore a11y_no_static_element_interactions -->
+          <!-- svelte-ignore a11y_click_events_have_key_events -->
+          <div class="movie-card" on:click={() => showDetails(movie)}>
+            <img
+              src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+              alt={movie.title}
+            />
+          </div>
+        {/each}
+      </div>
+    </div>
+
+    <div class="watched">
+      <h3>✔️ Films déjà regardés</h3>
+      <div class="movies-grid">
+        {#each movies.filter( (movie) => watchedMovies.includes(movie.id) ) as movie (movie.id)}
+          <!-- svelte-ignore a11y_click_events_have_key_events -->
+          <!-- svelte-ignore a11y_no_static_element_interactions -->
+          <div class="movie-card" on:click={() => showDetails(movie)}>
+            <img
+              src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+              alt={movie.title}
+            />
+          </div>
+        {/each}
+      </div>
+    </div>
+  </div>
 </main>
+
+
