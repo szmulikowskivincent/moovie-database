@@ -36,7 +36,7 @@
 
       // Calculer le nombre total de pages
       totalPages = Math.ceil(movies.length / itemsPerPage);
-      filterMovies();  // Appliquer le filtre initial
+      filterMovies(); // Appliquer le filtre initial
     } catch (err) {
       error = "Erreur lors du chargement des films.";
     } finally {
@@ -66,14 +66,14 @@
   function nextPage() {
     if (currentPage < totalPages) {
       currentPage += 1;
-      filterMovies();  // Appliquer le filtre après changement de page
+      filterMovies();
     }
   }
 
   function prevPage() {
     if (currentPage > 1) {
       currentPage -= 1;
-      filterMovies();  // Appliquer le filtre après changement de page
+      filterMovies();
     }
   }
 
@@ -175,7 +175,8 @@
               window.open(
                 `https://www.youtube.com/watch?v=${selectedMovie.id}`,
                 "_blank"
-              )}>
+              )}
+          >
             <i class="bi bi-play-circle"></i> ▶ Voir le film
           </button>
         </div>
@@ -234,7 +235,10 @@
   <div style="margin-left: 5px" class="dashboard">
     <h2 style="margin-left: 85px">
       <!-- svelte-ignore element_invalid_self_closing_tag -->
-      <i class="bi bi-camera-video" style="font-size: 40px; margin-right: 10px;"/>
+      <i
+        class="bi bi-camera-video"
+        style="font-size: 40px; margin-right: 10px;"
+      />
       My Moovies
     </h2>
 
@@ -271,5 +275,3 @@
     </div>
   </div>
 </main>
-
-
