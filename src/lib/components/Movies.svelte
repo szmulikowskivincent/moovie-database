@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { fetchMovies } from "../controllers/moviesController";
   import "../css/Moovies.css";
+  import GenreList from "./GenreList.svelte";
 
   let movies = [];
   let filteredMovies = [];
@@ -105,9 +106,9 @@
 </script>
 
 <main>
-  <div class="pagination" style="margin-top: -20px; margin-left: 350px">
+  <div class="pagination" style="margin-top: -20px; margin-left: 250px">
     <input
-      style="width: 570px; height: 35px; font-size: 24px; margin-left:-1220px;"
+      style="width: 570px; height: 45px; font-size: 24px; margin-left:-530px;"
       type="text"
       class="form-control"
       bind:value={searchQuery}
@@ -126,6 +127,7 @@
     <button on:click={nextPage} disabled={currentPage === totalPages}>
       Suivant
     </button>
+    <GenreList />
   </div>
 
   <div class="dashboard">
@@ -136,7 +138,7 @@
     <div class="genre-selection">
       <!-- svelte-ignore a11y_consider_explicit_label -->
       <button
-        style="margin-top:-80px"
+        style="margin-top:-70px; margin-left: 410px"
         class="btn btn-outline-secondary"
         type="button"
         on:click={() => (isMenuOpen = !isMenuOpen)}

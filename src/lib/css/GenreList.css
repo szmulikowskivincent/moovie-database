@@ -1,0 +1,90 @@
+.modal {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline-start: -1150px;
+    inline-size: 100vw;
+    block-size: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    inline-size: 90%;
+    max-inline-size: 900px;
+    max-block-size: 85%;
+    overflow-y: auto;
+    position: relative;
+    z-index: 1051;
+}
+
+.close-btn {
+    position: absolute;
+    inset-block-start: 10px;
+    inset-inline-end: 15px;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+button {
+    inline-size: 225px;
+    block-size: 45px;
+    font-size: 18px;
+    background-color: transparent;
+}
+
+.genres-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding: 10px 0;
+    white-space: nowrap;
+}
+
+.genre-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: #f8f9fa;
+    min-inline-size: 120px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+}
+
+.genre-item i {
+    font-size: 1.5rem;
+    margin-block-end: 5px;
+}
+
+.carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 15px;
+    scroll-snap-type: x mandatory;
+}
+
+.carousel-item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    inline-size: 250px;
+}
+
+.carousel-item img {
+    inline-size: 100%;
+    border-radius: 10px;
+}
+
+.carousel-item iframe {
+    inline-size: 100%;
+    block-size: 140px;
+    border-radius: 10px;
+}
