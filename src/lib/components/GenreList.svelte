@@ -6,7 +6,6 @@
     { id: 28, name: "Action", icon: "bi bi-lightning-fill" },
     { id: 12, name: "Aventure", icon: "bi bi-globe-americas" },
     { id: 35, name: "Comédie", icon: "bi bi-emoji-laughing" },
-    { id: 10752, name: "Guerre", icon: "bi bi-shield-fill" },
     { id: 36, name: "Histoire", icon: "bi bi-book-fill" },
     { id: 27, name: "Horreur", icon: "bi bi-emoji-dizzy" },
     { id: 53, name: "Thriller", icon: "bi bi-eye-fill" },
@@ -64,7 +63,7 @@
     <div class="modal-content">
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <!-- svelte-ignore a11y_no_static_element_interactions -->
-      <span class="close-btn text-danger" on:click={() => (showModal = false)}
+      <span  style="font-size:45px" class="close-btn text-danger" on:click={() => (showModal = false)}
         >&times;</span
       >
 
@@ -83,7 +82,11 @@
 
       {#each genres as { id, name }}
         {#if movies[id]}
-          <h3 class="mt-4">{name}</h3>
+          <h3 class="mt-4">
+            <i class="bi bi-film me-2"></i>
+            {name}
+          </h3>
+
           <div class="carousel">
             <div class="carousel-item">
               <img

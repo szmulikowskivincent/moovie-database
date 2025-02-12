@@ -27,7 +27,7 @@
     position: absolute;
     inset-block-start: 10px;
     inset-inline-end: 15px;
-    font-size: 2rem;
+    font-size: 85px;
     cursor: pointer;
 }
 
@@ -40,8 +40,11 @@ button {
 
 .genres-container {
     display: flex;
+    inline-size: 940px;
+    block-size: 500px;
+    margin-inline-start: 30px;
     overflow-x: auto;
-    gap: 15px;
+    gap: 10px;
     padding: 10px 0;
     white-space: nowrap;
 }
@@ -87,4 +90,8 @@ button {
     inline-size: 100%;
     block-size: 140px;
     border-radius: 10px;
+}
+
+h3 {
+    margin-inline-start: -800px;
 }

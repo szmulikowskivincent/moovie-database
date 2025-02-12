@@ -25,6 +25,20 @@
 
   let videoUrl = "";
 
+  const countries = [
+    {
+      name: "USA",
+      flag: "https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg",
+    }
+  ];
+
+  const getRandomCountry = () => {
+    const randomIndex = Math.floor(Math.random() * countries.length);
+    return countries[randomIndex];
+  };
+
+  let randomCountry = getRandomCountry();
+
   onMount(async () => {
     try {
       movies = await fetchMovies();
@@ -140,7 +154,7 @@
     <div class="genre-selection">
       <!-- svelte-ignore a11y_consider_explicit_label -->
       <button
-        style="margin-top:-70px; margin-left: 410px"
+        style="margin-top:-70px; margin-left: 410px; position: relative; z-index: 9999;"
         class="btn btn-outline-secondary"
         type="button"
         on:click={() => (isMenuOpen = !isMenuOpen)}
@@ -150,7 +164,9 @@
       </button>
 
       <div
-        style="position: absolute; z-index: 9999; top: 45%; left:12%; transform: translate(-50%, -50%); border: solid 1px white; width: 550px; height: 910px; display: flex; justify-content: center; align-items: center; color: white; background-color: rgba(0, 0, 0, 0.6);"
+        style="position: absolute; z-index: 9999; top: 45%; left: 12%; transform: translate(-50%, -50%);
+      border: solid 1px white; width: 550px; height: 910px; display: flex; justify-content: center;
+      align-items: center; color: white; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);"
       >
         <i class="bi bi-camera" style="font-size: 3rem; margin-right: 10px;"
         ></i>
@@ -189,41 +205,71 @@
           src={`https://image.tmdb.org/t/p/w400${selectedMovie.poster_path}`}
           alt={selectedMovie.title}
         />
-        <br /> <br />
-        <h2 style="margin-left: 135px">
-          <strong>Note :</strong> ⭐ {selectedMovie.vote_average}
-        </h2>
-        <div>
-          <button
-            style="background-color: transparent; border: none; font-size: 24px"
-            class="btn btn-primary"
-            on:click={() =>
-              (videoUrl = `https://www.youtube.com/embed/${selectedMovie.id}`)}
-          >
-            <i class="bi bi-play-circle"></i> ▶ Voir le film
-          </button>
 
-          {#if videoUrl}
-            <!-- svelte-ignore a11y_missing_attribute -->
-            <iframe
-              style="position: relative; z-index: 999; margin-left: 0px; margin-top: -150px; margin-left: 2270px;"
-              width="420"
-              height="315"
-              src={videoUrl}
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          {/if}
-        </div>
-
-        <h1>ⓘ</h1>
-        <strong></strong>
-        <br /><br />
-        {selectedMovie.overview}
+        {#if videoUrl}
+          <!-- svelte-ignore a11y_missing_attribute -->
+          <iframe
+            style="position: relative; z-index: 999; margin-left: 0px; margin-top: -150px; margin-left: 2270px;"
+            width="420"
+            height="315"
+            src={videoUrl}
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        {/if}
       </div>
     {/if}
   </div>
+
+  {#if selectedMovie}
+    <!-- Modal for movie details -->
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button on:click={() => (selectedMovie = null)} class="close-button">
+            <i class="bi bi-x-circle"></i>
+            <!-- Icon for close -->
+          </button>
+          <h3 class="movie-title">
+            <i class="bi bi-film"></i>
+            <!-- Icon for movie -->
+            {selectedMovie.title}
+          </h3>
+        </div>
+
+        <div class="modal-body">
+          <img
+            class="movie-poster"
+            src={`https://image.tmdb.org/t/p/w400${selectedMovie.poster_path}`}
+            alt={selectedMovie.title}
+          />
+          <div class="movie-details">
+            <p>
+              <strong>Note :</strong> <i class="bi bi-star-fill"></i>
+              {selectedMovie.vote_average}
+            </p>
+            <br />
+            <h1>ⓘ</h1>
+            <p>
+              <strong>Description :</strong>
+              {selectedMovie.overview}
+            </p>
+
+            <div class="flag-container">
+              <img
+                style="width: 100px;"
+                src={randomCountry.flag}
+                alt={randomCountry.name}
+                class="country-flag"
+              />
+              <p><strong>{randomCountry.name}</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {/if}
 
   {#if isLoading}
     <p>Chargement des films...</p>
@@ -308,14 +354,12 @@
       </div>
     </div>
     <div
-      style="position: absolute; z-index: 9999; top: 87%; left: 90.8%; transform: translate(-50%, -50%); border: solid 1px white; width: 420px; height: 315px; display: flex; justify-content: center; align-items: center; color: white; background-color: rgba(0, 0, 0, 0.6);"
+      style="position: absolute; z-index: 9999; top: 87%; left: 90.8%; transform: translate(-50%, -50%);
+    border: solid 1px white; width: 420px; height: 315px; display: flex; justify-content: center;
+    align-items: center; color: white; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);"
     >
-      <div
-        style="position: absolute; z-index: 9999; top: 50%; left: 50%; transform: translate(-50%, -50%); border: solid 1px white; width: 420px; height: 315px; display: flex; justify-content: center; align-items: center; color: white; background-color: rgba(0, 0, 0, 0.6);"
-      >
-        <i class="bi bi-film" style="font-size: 3rem; margin-right: 10px;"></i>
-        <span style="font-size: 1.5rem;">Pas de lecture en cours</span>
-      </div>
+      <i class="bi bi-film" style="font-size: 3rem; margin-right: 10px;"></i>
+      <span style="font-size: 1.5rem;">Pas de lecture en cours</span>
     </div>
   </div>
 </main>
