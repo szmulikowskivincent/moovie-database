@@ -129,7 +129,6 @@ h2 i {
     border-radius: 4px;
     box-shadow: transparent;
     max-block-size: 250px;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     padding: 10px 0;
@@ -308,7 +307,7 @@ p {
     padding: 20px;
     justify-content: space-between;
     align-items: flex-start;
-    width: 100%;
+    inline-size: 100%;
 }
 
 .movie-poster {
@@ -316,7 +315,7 @@ p {
     block-size: auto;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-right: 20px;
+    margin-inline-end: 20px;
 }
 
 .movie-details {
@@ -337,6 +336,14 @@ p {
     display: flex;
     align-items: center;
     margin-block-start: 20px;
+}
+
+.genre-links {
+    position: absolute;
+    inset-block-start: 10px;
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
 }
 
 .country-flag {

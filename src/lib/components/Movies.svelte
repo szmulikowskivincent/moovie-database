@@ -29,7 +29,7 @@
     {
       name: "USA",
       flag: "https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg",
-    }
+    },
   ];
 
   const getRandomCountry = () => {
@@ -154,7 +154,7 @@
     <div class="genre-selection">
       <!-- svelte-ignore a11y_consider_explicit_label -->
       <button
-        style="margin-top:-70px; margin-left: 410px; position: relative; z-index: 9999;"
+        style="margin-top:-70px; margin-left: 410px; position: relative; z-index: 10000;"
         class="btn btn-outline-secondary"
         type="button"
         on:click={() => (isMenuOpen = !isMenuOpen)}
@@ -165,8 +165,9 @@
 
       <div
         style="position: absolute; z-index: 9999; top: 45%; left: 12%; transform: translate(-50%, -50%);
-      border: solid 1px white; width: 550px; height: 910px; display: flex; justify-content: center;
-      align-items: center; color: white; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);"
+              border: solid 1px white; width: 550px; height: 910px; display: flex; justify-content: center;
+              align-items: center; color: white; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);
+              pointer-events: none;"
       >
         <i class="bi bi-camera" style="font-size: 3rem; margin-right: 10px;"
         ></i>
